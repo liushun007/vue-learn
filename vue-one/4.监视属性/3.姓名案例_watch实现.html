@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例_methods实现</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- watch和compted的区别：
+          1.watch能完成的功能，compted不一定能完成，例如：watch可以异步操作；
+          2.compted能完成的功能，watch一定能完成
+    两个重要的小原则：
+          1.所有被Vue管理的函数，写成普通的函数，这样this的执行才是vm或组件实例对象；
+          2.所有不被Vue所管理的函数（定时器的回调函数、ajax的回调函数等），最好写成箭头函数，
+            这样this的指向才是vm或组件实例对象。 -->
+    <!-- watch实现 -->
+    <div id="root">
+        姓：<input type="text" v-model="firstName"><br/>
+        名：<input type="text" v-model="lastName"><br/>
+        全名：<span>{{fullName}}</span>
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el:'#root',
+            data:{
+                firstName:'张',
+                lastName:'三',
+                fullName:'张-三'
+            },
+            watch:{
+                //可以异步实现，compted计算属性不可以
+                firstName(val){
+                    setTimeout(() => {
+                        this.fullName = val + '-' + this.lastName
+                    }, 1000);
+                    
+                },
+                lastName(val){
+                    this.fullName = this.firstName + '-' + val
+                }
+            }
+        })
+    </script>
+</body>
+</html>

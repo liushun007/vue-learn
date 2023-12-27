@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue的set()方法</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 劫持
+       Vue监视数据的原理：
+           1.Vue会监视data中所有层次的数据
+
+           2.如何监测对象中的数据？
+                   通过setter实现监视，且要在new Vue时就传入要监测的数据。
+                    (1)对象中后追加的属性，Vue默认不做响应式处理
+                    (2)如需给后添加的属性做响应式，请使用如下Api：
+                        Vue.set(target,propertyName/index,value)
+                        vm.$set(target,propertyName/index,value)
+            3.如何监测数组中的数据？
+                   通过包裹数组更新元素的方法实现，本质就是做了两件事：
+                   (1)调用原生对应的方法对数组进行更新
+                   (2)重新解析模板，进而更新页面
+            4.在Vue修改数组中的某个元素一定要用到如下方法：
+               使用这些Api：push()、pop()、shift()、unshift()、splice()、reverse()、
+               Vue.set()或vm.$set()                    -->
+    <div id="root">
+        <h2>姓名：{{stu.name}}</h2>
+        <h2 v-if="stu.sex">性别：{{stu.sex}}</h2>
+        <h2>年龄：真实：{{stu.age.rAge}} 对外：{{stu.age.sAge}}</h2>
+        <button @click="updateAge">更改真实和对外年龄</button>
+        <button @click="update">替换马冬梅</button>
+        <h2>人员列表</h2>
+        <!-- 1.遍历数组 -->
+        <ul>
+            <li v-for="(person,index) in persons" :key="person.id">
+                {{person.name}}--{{person.age}}
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        const vm = new Vue({
+            el:'#root',
+            // 使用计算属性过滤功能
+            data:{
+                stu:{
+                    name:'张三',
+                    // sex:'',
+                    age:{
+                        rAge:30,
+                        sAge:20,
+                    }
+                },
+                persons:[
+                    {id:1,name:'马冬梅',age:18},
+                    {id:2,name:'周冬雨',age:17},
+                    {id:3,name:'周杰伦',age:32},
+                    {id:4,name:'粥杰伦',age:15},
+                ],
+                hobby:['吃','喝','玩']
+            },
+            methods: {
+                update(){
+                    // Vue.set(this.persons,0,{id:1,name:'老刘',age:30});
+                    vm.$set(this.persons,0,{id:1,name:'老刘',age:30});
+                },
+                updateAge(){
+                    Vue.set(this.stu.age,'rAge',26);
+                    vm.$set(this.stu.age,'sAge',18);
+                }
+            },
+            
+
+        })
+    </script>
+</body>
+</html>

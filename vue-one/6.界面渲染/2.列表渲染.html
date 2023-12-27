@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表渲染</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 遍历 of和in都可以使用-->
+    <div id="root">
+        <!-- 1.遍历数组 -->
+        <ul>
+            <h2>人员列表</h2>
+            <li v-for="(person,index) in persons" :key="index">
+                {{person.name}}--{{person.age}}
+            </li>
+        </ul>
+        <!-- 2.遍历对象 -->
+        <ul>
+            <h2>汽车信息</h2>
+            <li v-for="(value,k) in car" :key="k">
+                {{k}}--{{value}}
+            </li>
+        </ul>
+        <!-- 3.遍历字符串 -->
+        <ul>
+            <h2>字符串</h2>
+            <li v-for="(value,index) in str" :key="index">
+                {{value}}--{{index}}
+            </li>
+        </ul>
+        <!-- 4.遍历指定次数 -->
+        <ul>
+            <h2>指定次数</h2>
+            <li v-for="(value,index) of 10" :key="index">
+                {{value}}--{{index}}
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                persons:[
+                    {id:1,name:'张三',age:18},
+                    {id:2,name:'李四',age:19},
+                    {id:3,name:'王五',age:20},
+                ],
+                car:{
+                    name:'大众',
+                    price:'20w',
+                    color:'黑色',
+                },
+                str:'hello',
+            }
+        })
+    </script>
+</body>
+</html>

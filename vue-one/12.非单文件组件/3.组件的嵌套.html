@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的嵌套</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/dayjs.min.js"></script>
+</head>
+<body>
+
+    <div id="root">
+        <!-- 3.使用组件  嵌套-->
+        <!-- <app></app> -->
+       
+    </div>
+    
+    <script type="text/javascript">
+        // 1.创建组件
+        //组件嵌套 定义student组件
+        const student = Vue.extend({
+            name:"student",
+            template:
+            `<div>
+                <h2>学生名称：{{studentName}}</h2>
+                <h2>年龄：{{age}}</h2>
+            </div>`,
+            data(){
+                return{
+                    studentName:'张三',
+                    age:18
+                }
+            },
+
+        });
+        //定义school组件
+        const school = ({
+            name:'school',
+            template:
+            `<div>
+                <h2>学校名称：{{schoolName}}</h2>
+                <h2>学校地址：{{address}}</h2>
+                <student></student>
+            </div>`,
+            data(){
+                return{
+                    schoolName:'XX学校',
+                    address:'北京'
+                }
+            },
+            //嵌套student
+            components:{
+                student,
+            }
+        });
+        //定义hello组件
+        const hello = ({
+            template:
+            `<div>
+                <h1>你好啊！{{name}}</h1>
+            </div>`,
+            data(){
+                return{
+                    name:'Tom',
+                }
+            }
+
+        });
+        //定义app组件
+        const app = ({
+            name:"app",
+            template:
+            `<div>
+                <hello></hello>
+                <school></school>
+            </div>`,
+            //嵌套
+            components:{
+                school,
+                hello
+            }
+
+        });
+        // 2.注册组件 （全局注册）
+        Vue.component('hello',hello)
+
+        const vm = new Vue({
+            el:'#root',
+            template:`<app></app>`,
+            //2.注册组件 （局部注册）
+            components:{
+                app
+            },
+        })
+
+    </script>
+</body>
+</html>

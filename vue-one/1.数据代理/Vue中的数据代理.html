@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据代理 回顾Object.defineoroperty</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>名称：{{name}}</h1>
+    </div>
+    <script type="text/javascript">
+        let number = 18;
+        let person = {
+            name: "张三",
+            address: "中国",
+            // age: number
+        }
+        Object.defineProperty(person,"age",{
+        //     value: 18,
+        //     enumerable: true, //控制属性是否可以枚举，默认值是false
+        //     writable: true, //控制属性是否可以被修改，默认值是false
+        //     configurable: true //控制属性是否可以被删除,默认值是false
+            //当有人读取age属性时，get函数（getter）就会被调用，且返回值就是age的值
+            get: function() {
+                console.log("读取age");
+                return number;
+            },
+            //当有人修改属性时，get函数（getter）就会被调用，且返回值就是age的值
+            set(value) {
+                console.log("修改的age值为：",value);
+                number = value;
+            }
+        })
+
+        // console.log(Object.keys(person));
+
+        // for (const key in person) {
+        //     if (Object.hasOwnProperty.call(person, key)) {
+        //         const element = person[key];
+        //         console.log(element);
+                
+        //     }
+        // }
+        console.log(person);
+
+        // 数据代理：通过一个对象代理另一个对象中属性的操作（读/写）
+        let obj = {
+            x:100
+        }
+        let obj2 = {
+            y:200
+        }
+
+        Object.defineProperty(obj2,"x",{
+            get() {
+                return obj.x;
+            },
+            set(value) {
+                obj.x = value;
+            }
+        })
+        console.log("obj：",obj);
+        console.log("obj2：",obj2);
+
+
+        const vm = new Vue({
+            el:"#root",
+            data: {
+                name: "百度"
+            }
+        })
+    </script>
+</body>
+</html>

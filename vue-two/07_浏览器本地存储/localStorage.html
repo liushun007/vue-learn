@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage</title>
+</head>
+<body>
+    <div>
+        <h1>localStorage</h1>
+        <hr>
+        <button onclick="saveData()">保存一些数据存储到本地</button>
+        <button onclick="getData()">查看一些存储数据</button>
+        <button onclick="delData()">删除本地存储一些数据</button>
+        <button onclick="delAllData()">清空本地存储所有数据</button>
+    </div>
+    <script type="text/javascript">
+        function saveData() {
+            let p = {id:'01',name:'张三'};
+            window.localStorage.setItem('msg','你好');
+            window.localStorage.setItem('msg2',1);
+            //如果上一个value不是String类型，下面数据默认会toString
+            window.localStorage.setItem('person',JSON.stringify(p));
+        }
+
+        function getData() {
+            //getItem如果value不存在返回为null
+            console.log(localStorage.getItem('msg'));
+            console.log(localStorage.getItem('msg2'));
+            const person = localStorage.getItem('person');
+            console.log(JSON.parse(person));
+            //返回为null
+            // console.log(localStorage.getItem('msg3'));
+
+        }
+
+        function delData() {
+            localStorage.removeItem('msg');
+        }
+
+        function delAllData() {
+            localStorage.clear();
+        }
+    </script>
+
+</body>
+
+</html>

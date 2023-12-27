@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表渲染</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 遍历 of和in都可以使用-->
+    <div id="root">
+        <!-- 1.遍历数组 -->
+        <ul>
+            <h2>人员列表</h2>
+            <li v-for="(person,index) in persons" :key="index">
+                {{person.name}}--{{person.age}}
+                <input type="text">
+            </li>
+            
+            <button  @click="add">插入一条数据</button>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                persons:[
+                    {id:1,name:'张三',age:18},
+                    {id:2,name:'李四',age:19},
+                    {id:3,name:'王五',age:20},
+                ],
+            },
+            methods: {
+                add(){
+                    const person = {id:4,name:'老刘',age:30};
+                    // this.persons.unshift(person);//向前插入一条数据
+                    this.persons.push(person);//向后插入一条数据
+                }
+            },
+        })
+    </script>
+</body>
+</html>

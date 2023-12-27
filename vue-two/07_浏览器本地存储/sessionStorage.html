@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sessionStorage</title>
+</head>
+<body>
+    <div>
+        <!-- 浏览器关闭会消失 -->
+        <h1>sessionStorage</h1>
+        <hr>
+        <button onclick="saveData()">保存一些数据session</button>
+        <button onclick="getData()">查看一些session数据</button>
+        <button onclick="delData()">删除一些session数据</button>
+        <button onclick="delAllData()">清空本地存储所有session</button>
+    </div>
+    <script type="text/javascript">
+        function saveData() {
+            let p = {id:'01',name:'张三'};
+            window.sessionStorage.setItem('msg','你好');
+            window.sessionStorage.setItem('msg2',1);
+            //如果上一个value不是String类型，下面数据默认会toString
+            window.sessionStorage.setItem('person',JSON.stringify(p));
+        }
+
+        function getData() {
+            //getItem如果value不存在返回为null
+            console.log(sessionStorage.getItem('msg'));
+            console.log(sessionStorage.getItem('msg2'));
+            const person = sessionStorage.getItem('person');
+            console.log(JSON.parse(person));
+            //返回为null
+            // console.log(sessionStorage.getItem('msg3'));
+
+        }
+
+        function delData() {
+            sessionStorage.removeItem('msg');
+        }
+
+        function delAllData() {
+            sessionStorage.clear();
+        }
+    </script>
+
+</body>
+
+</html>

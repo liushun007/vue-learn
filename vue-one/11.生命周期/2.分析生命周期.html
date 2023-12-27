@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析生命周期</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/dayjs.min.js"></script>
+</head>
+<body>
+    <!-- 生命周期：
+            1.又名：生命周期回调函数、生命周期函数、生命周期钩子；
+            2.是什么：Vue在关键时刻帮我们调用的一些特殊名称的函数；
+            3.生命周期函数的名字不可更改，但函数的具体内容是程序员根据需求编写的；
+            4.生命周期函数中的this指向的是vm 或组件实例对象。 -->
+    <div id="root" :x = "n">
+        <h2>当前的值是：{{n}}</h2>
+        <button @click="add">点击n+1</button>
+        <button @click="del">点击销毁vm</button>
+    </div>
+    <script type="text/javascript">
+
+        const vm = new Vue({
+            el:'#root',
+            // template:`
+            // <div>
+            //     <h2>当前的值是：{{n}}</h2>
+            //     <button @click="add">点击n+1</button>
+            // </div>
+            // `,
+            data:{
+                n:1,
+            },
+            methods: {
+                add(){
+                    this.n++;
+                },
+                del(){
+                    console.log("bye!");
+                    //销毁vm
+                    this.$destroy();
+                }
+            },
+
+            //挂载流程
+            //创建之前
+            beforeCreate() {
+            
+                console.log('beforeCreate');
+                // console.log(this);
+                // debugger;
+            },
+            //创建完毕
+            created() {
+                console.log('created');
+                // console.log(this);
+                // debugger;
+            },
+            //挂载前
+            beforeMount() {
+                console.log('beforeMount');
+                // console.log(this);
+                // debugger;
+                // document.querySelector('h2').innerText='hh';
+            },
+            //挂载完毕
+            mounted() {
+                console.log('mounted');
+                // console.log(this);
+                // debugger;
+                // document.querySelector('h2').innerText='hh';
+            },
+            //更新流程
+            //更新之前
+            beforeUpdate() {
+                console.log('beforeUpdate');
+                console.log("n:",this.n);
+                // console.log(this);
+                // debugger;
+            },
+            //更新完毕
+            updated() {
+                console.log('updated');
+                console.log("n:",this.n);
+                // console.log(this);
+                // debugger; 
+            },
+            //销毁流程
+            //销毁之前  
+            beforeDestroy() {
+                console.log('beforeDestroy');
+                // console.log(this);
+                console.log("n:",this.n);
+                // debugger;
+            },
+            //销毁完毕
+            destroyed() {
+                console.log('destroyed');
+                // console.log(this); 
+                console.log("n:",this.n);
+                // debugger;
+            },
+
+        })
+
+    </script>
+</body>
+</html>

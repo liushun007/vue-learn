@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表排序</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 遍历 of和in都可以使用-->
+    <div id="root">
+        <h2>人员列表</h2>
+        <!-- 1.遍历数组 -->
+        <input v-model="selectName"><br/>
+        <button @click="sortType = 1">升序</button>
+        <button @click="sortType = 2">降序</button>
+        <button @click="sortType = 0">原顺序</button>
+        <ul>
+            <li v-for="(person,index) in filterPersons" :key="person.id">
+                {{person.name}}--{{person.age}}
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        const vm = new Vue({
+            el:'#root',
+            // 使用监听实现过滤功能
+            //#region
+            /* data:{
+                selectName:'',
+                persons:[
+                    {id:1,name:'马冬梅',age:18},
+                    {id:2,name:'周冬雨',age:19},
+                    {id:3,name:'周杰伦',age:20},
+                    {id:4,name:'粥杰伦',age:21},
+                ],
+                filterPersons:[]
+            },
+            watch:{
+                selectName:{
+                    immediate:true,
+                    handler(val){
+                        const arr = this.persons.filter((p)=>{
+                            return p.name.indexOf(val) !== -1;
+                        });
+                    }
+                }
+            }, */
+            //#endregion
+
+            // 使用计算属性过滤功能
+            data:{
+                selectName:'',
+                sortType:0, //0：默认排序，1:升序，2：降序
+                persons:[
+                    {id:1,name:'马冬梅',age:18},
+                    {id:2,name:'周冬雨',age:17},
+                    {id:3,name:'周杰伦',age:32},
+                    {id:4,name:'粥杰伦',age:15},
+                ],
+            },
+            
+            computed:{
+                filterPersons(){
+                      const arr = this.persons.filter((p)=>{
+                            return p.name.indexOf(this.selectName) !== -1;
+                        });
+                        //判断一下是否需要排序
+                        if(this.sortType){
+                            arr.sort((p1,p2)=>{
+                                return this.sortType === 1 ? p1.age-p2.age : p2.age-p1.age;
+                            })
+                        }
+                    return arr;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

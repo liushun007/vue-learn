@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-html指令</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/dayjs.min.js"></script>
+</head>
+<body>
+    <!-- 会造成xss攻击  截取cookie-->
+    <div id="root">
+        <div>你好，{{name}}</div>
+        <div v-html="name">你好，</div>
+        <div v-html="str"></div>
+    </div>
+    <script type="text/javascript">
+
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                name:'张三',
+                str:'<h1>张三</h1>'
+            },
+
+        })
+
+    </script>
+</body>
+</html>

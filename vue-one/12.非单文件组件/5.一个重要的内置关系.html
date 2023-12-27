@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个重要的内置关系</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/dayjs.min.js"></script>
+</head>
+<body>
+    <!-- 1.一个重要的内置关系：VueComponent.prototype.__proto__ === Vue.prototype;
+    2.为什么要有这种关系：让组件实例对象（vc）可以访问到Vue原型上的属性和方法。 -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+       <school></school>
+    </div>
+    
+    <script type="text/javascript">
+        // 定义一个构造函数
+        // function Demo(){
+        //     this.a = 1;
+        //     this.b = 2;
+        // };
+        // const demo = new Demo();
+        // console.log(Demo.prototype);//显示原型属性
+        // console.log(demo.__proto__);//隐示原型属性 :都属于原型属性!
+
+        // console.log("result:",demo.prototype === demo.__proto__); //返回为true
+
+        // //程序员通过显示属性操作原型对象，追加一个x属性，值为99
+        // Demo.prototype.x = 99;
+        
+        // console.log("@X值为",demo.__proto__.x);
+
+        // console.log("demo: ",demo);
+
+        Vue.prototype.x = 99;
+        //定义school组件
+        const vc = Vue.extend({
+            name:'school',
+            template:
+            `<div>
+                <h2>学校名称：{{schoolName}}</h2>
+                <h2>学校地址：{{address}}</h2>
+                <button @click="showX">点击输出X</button>
+            </div>`,
+            data(){
+                return{
+                    schoolName:'XX学校',
+                    address:'北京'
+                }
+            },
+            methods: {
+                showX(){
+                    console.log("@X" ,this.x);
+                }
+            },
+        });
+
+        const vm = new Vue({
+            el:'#root',
+            //2.注册组件 （局部注册）
+            components:{
+                school:vc,
+            },
+
+        })
+
+        console.log("@vc",vc);
+        console.log("@vm",vm);
+        // VueComponent.prototype.__proto__ === Vue.prototype
+        console.log("result:",vc.prototype.__proto__ === Vue.prototype); //返回为true
+
+
+    </script>
+</body>
+</html>

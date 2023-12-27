@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气案例_监视属性</title>
+    <!-- 引入vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- Vue中监视属性watch:
+          1.当被监视属性变化时，回调函数自动调用，进行相关操作；
+          2.监视的属性必须存在，才能进行监视；
+          3.监视的两种写法：
+              （1）new Vue时传入watch配置
+              （2） 通过vm.$watch监视 -->
+    <div id="root">
+        <!-- <h2>今天天气很{{isHot ? '炎热' : '凉爽'}}</h2><br/> -->
+        <h2>今天天气很{{info}}</h2><br/>
+        <button @click="changeweather">切换天气</button><br/>
+        <h2>a的值是：{{numbers.a}}</h2>
+        <h2>b的值是：{{numbers.b}}</h2>
+        <button @click="numbers.a++;">a++</button><br/>
+        <button @click="numbers.b++;">b++</button><br/>
+        <button @click="numbers={a:222,b:666};">彻底改变numbers</button><br/>
+    </div>
+    <script type="text/javascript">
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                isHot:true,
+                numbers:{
+                    a:1,
+                    b:2
+                }
+            },            
+            computed:{
+                info:{
+                    get(){
+                        return this.isHot ? '炎热' : '凉爽';
+                    }
+                }
+            },
+            methods: {
+                changeweather(){
+                      this.isHot = !this.isHot;
+                      this.x++;
+                }    
+            },
+            watch:{
+                // isHot:{
+                //     immediate:true, //默认为false，为true初始化调用handler
+                //     handler(newValue,oldValue){
+                //         console.log("isHot修改了",newValue,oldValue);
+                //     }
+                // },
+                //只存在handler时的简写方法
+                // isHot(newValue,oldValue){
+                //         console.log("isHot修改了",newValue,oldValue);
+                // },
+                // info:{
+                //     immediate:true, //默认为false，为true初始化调用handler
+                //     handler(newValue,oldValue){
+                //         console.log("info修改了",newValue,oldValue);
+                //     }
+                // },
+                //监视多层结构数据的变化
+                'numbers.a':{
+                    immediate:true, //默认为false，为true初始化调用handler
+                    handler(newValue,oldValue){
+                        console.log("numbers.a修改了",newValue,oldValue);
+                    }
+                },
+                // numbers:{
+                //     handler(newValue,oldValue){
+                //         console.log("numbers修改了",newValue,oldValue);
+                //     }
+                // }
+                numbers:{
+                    deep:true, //深层监视，默认为false
+                    handler(newValue,oldValue){
+                        console.log("numbers修改了",newValue,oldValue);
+                    }
+                }
+            }
+        })
+        // vm.$watch('isHot',{
+        //     handler(newValue,oldValue){
+        //         console.log("isHot修改了",newValue,oldValue);
+        //     }
+        // })  
+        //只存在handler时的简写方法
+        vm.$watch('isHot',function(newValue,oldValue){
+                console.log("isHot修改了",newValue,oldValue); 
+        }) 
+    </script>
+</body>
+</html>
